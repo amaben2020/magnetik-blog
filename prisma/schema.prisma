@@ -27,21 +27,24 @@ enum ArticleCategory {
 
 model User {
   id    Int    @id @default(autoincrement())
-  name String  
+  name String?  
   email String @unique  
   clerkId String  @unique
   createdAt DateTime @default(now())
   updtedAt DateTime @updatedAt
   profile Profile?
+  articles Article[]
 }
 
 model Article{
   id String @id
   content String @db.Text // long string
   categories Category[]
-  isPublished Boolean  // this should be triggered when an article is published
+  published Boolean @default(false)  
   createdAt DateTime @default(now())
   updtedAt DateTime @updatedAt
+  userId Int @unique
+  user User? @relation( fields: [userId] , references: [id])
 }
 model Followers{
   id String @id
@@ -70,7 +73,7 @@ model Category{
 }
 model Comment{
   id String @id
-  text String
+  text String @db.Text
   createdAt DateTime @default(now())
   updtedAt DateTime @updatedAt
 }
