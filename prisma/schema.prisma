@@ -11,6 +11,20 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
+enum ArticleCategory {
+ Technology
+ Software 
+ Research
+ Frameworks
+ Product
+ Design
+ Management
+ Leadership
+ SAAS
+ AI
+ ML
+}
+
 model User {
   id    Int    @id @default(autoincrement())
   name String  
@@ -24,24 +38,39 @@ model User {
 model Article{
   id String @id
   content String @db.Text // long string
+  categories Category[]
+  isPublished Boolean  // this should be triggered when an article is published
+  createdAt DateTime @default(now())
+  updtedAt DateTime @updatedAt
 }
 model Followers{
   id String @id
+  createdAt DateTime @default(now())
+  updtedAt DateTime @updatedAt
  
 }
 model Following{
-    id String @id
+  id String @id
+  createdAt DateTime @default(now())
+  updtedAt DateTime @updatedAt
 }
 model Profile{
 id Int @id @default(autoincrement())
  userId Int @unique
  user User @relation(fields: [userId], references: [id])
+ createdAt DateTime @default(now())
+ updtedAt DateTime @updatedAt
 }
 model Category{
-    id String @id
-  category String
+  id String @id
+  category ArticleCategory[]
+  articles Article[]
+  createdAt DateTime @default(now())
+  updtedAt DateTime @updatedAt
 }
 model Comment{
   id String @id
   text String
+  createdAt DateTime @default(now())
+  updtedAt DateTime @updatedAt
 }
