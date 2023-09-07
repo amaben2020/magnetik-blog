@@ -27,7 +27,7 @@ enum ArticleCategory {
 
 model User {
   id    Int    @id @default(autoincrement())
-  name String?   @map("fullName")
+  name String  @map("fullName")
   email String @unique  
   clerkId String  @unique
   createdAt DateTime @default(now())
@@ -53,7 +53,7 @@ model Article{
   createdAt DateTime @default(now())
   updtedAt DateTime @updatedAt
   authorId Int @unique
-  author User? @relation( fields: [authorId] , references: [id])
+  author User? @relation( fields: [authorId] , references: [id], onDelete:Cascade)
   comments Comment[]
   clap Int @default(0)
 }
