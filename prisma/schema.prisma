@@ -12,5 +12,36 @@ datasource db {
 }
 
 model User {
-  name String @id 
+  id    Int    @id @default(autoincrement())
+  name String  
+  email String @unique  
+  clerkId String  @unique
+  createdAt DateTime @default(now())
+  updtedAt DateTime @updatedAt
+  profile Profile?
+}
+
+model Article{
+  id String @id
+  content String @db.Text // long string
+}
+model Followers{
+  id String @id
+ 
+}
+model Following{
+    id String @id
+}
+model Profile{
+id Int @id @default(autoincrement())
+ userId Int @unique
+ user User @relation(fields: [userId], references: [id])
+}
+model Category{
+    id String @id
+  category String
+}
+model Comment{
+  id String @id
+  text String
 }
