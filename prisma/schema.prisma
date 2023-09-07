@@ -27,13 +27,22 @@ enum ArticleCategory {
 
 model User {
   id    Int    @id @default(autoincrement())
-  name String?  
+  name String?   @map("fullName")
   email String @unique  
   clerkId String  @unique
   createdAt DateTime @default(now())
   updtedAt DateTime @updatedAt
   profile Profile?
   articles Article[]
+  followedBy Follows[] @relation("following")
+  following  Follows[] @relation("follower")
+}
+model Follows {
+  followerId  Int
+  follower    User @relation("follower", fields: [followerId], references: [id])
+  followingId Int
+  following   User @relation("following", fields: [followingId], references: [id])
+  @@id([followerId, followingId])
 }
 
 model Article{
@@ -43,9 +52,10 @@ model Article{
   published Boolean @default(false)  
   createdAt DateTime @default(now())
   updtedAt DateTime @updatedAt
-  userId Int @unique
-  user User? @relation( fields: [userId] , references: [id])
+  authorId Int @unique
+  author User? @relation( fields: [authorId] , references: [id])
   comments Comment[]
+  clap Int @default(0)
 }
 model Followers{
   id String @id
@@ -81,3 +91,5 @@ model Comment{
   articleId String @unique
   article Article @relation(fields: [articleId], references: [id])
 }
+
+
