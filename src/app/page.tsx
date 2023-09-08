@@ -72,6 +72,22 @@ export default function Home() {
     }
   }, []);
 
+  const clapArticle = useCallback(
+    async (id: string) => {
+      try {
+        const { data } = await axios.patch(
+          `/api/article/clap?articleId=${id}&clap=${clap}`,
+        );
+        console.log("PUT CLAP", data);
+        // console.log("articles", data);
+        // setArticles(data.articles);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [clap],
+  );
+
   // later use swr or react query to have caching feature
   useEffect(() => {
     fetchArticles();
@@ -121,26 +137,28 @@ export default function Home() {
         <div>
           <h4>Articles in DB</h4>
 
-          {articles.length &&
-            articles.map((article: any) => (
-              <div
-                key={article.content}
-                className="border p-4 w-1/3 flex justify-between"
-              >
-                <p>{article.content}</p>
+          {articles?.map((article: any) => (
+            <div
+              key={article.content}
+              className="border p-4 w-1/3 flex justify-between"
+            >
+              <p>
+                {article.content} clap: {article.clap}
+              </p>
 
-                <button
-                  className="bg-green-500 p-2"
-                  onClick={() => {
-                    setClap((p) => (p <= 10 ? p + 1 : 10));
-                  }}
-                >
-                  {" "}
-                  {clap}
-                  Clap 👏🏾{" "}
-                </button>
-              </div>
-            ))}
+              <button
+                className="bg-green-500 p-2"
+                onClick={async () => {
+                  setClap((p) => (p <= 10 ? p + 1 : 10));
+                  await clapArticle(article?.id);
+                }}
+              >
+                {" "}
+                {clap}
+                Clap 👏🏾{" "}
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </div>

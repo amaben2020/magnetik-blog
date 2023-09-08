@@ -10,6 +10,7 @@ export const asyncWrapper = async (asyncFunc: AsyncFunc, ...args: any[]) => {
       data = await asyncFunc(args[0]);
     } else if (args.length > 1 && args.length === 2) {
       const [a, b] = args;
+
       data = await asyncFunc(a, b);
     } else if (args.length > 2 && args.length === 3) {
       const [a, b, c] = args;
