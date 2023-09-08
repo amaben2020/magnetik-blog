@@ -6,6 +6,8 @@ import { useCallback, useEffect, useState } from "react";
 
 export default function Home() {
   const [users, setUsers] = useState([]);
+  const [articles, setArticles] = useState<any>([]);
+  const [clap, setClap] = useState(0);
   const { isLoaded, userId, sessionId, getToken } = useAuth();
   const [article, setArticle] = useState("");
   const data = useUser();
@@ -39,7 +41,7 @@ export default function Home() {
     !!users.length &&
     users.length &&
     //@ts-ignore
-    users?.find((user) => user?.clerkId === userId).id;
+    users?.find((user) => user?.clerkId === userId)?.id;
 
   const handleCreateArticle = async () => {
     await axios.post("/api/article", {
@@ -59,6 +61,21 @@ export default function Home() {
       console.log(error);
     }
   };
+
+  const fetchArticles = useCallback(async () => {
+    try {
+      const { data } = await axios.get("/api/article");
+      console.log("articles", data);
+      setArticles(data.articles);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  // later use swr or react query to have caching feature
+  useEffect(() => {
+    fetchArticles();
+  }, [fetchArticles]);
 
   return (
     <div>
@@ -90,15 +107,42 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <h3>Create Article</h3>
-      <textarea
-        name=""
-        id=""
-        className="p-6 text-black"
-        value={article}
-        onChange={(e) => setArticle(e.target.value)}
-      />
-      <button onClick={handleCreateArticle}>Publish</button>
+      <div>
+        <h3>Create Article</h3>
+        <textarea
+          name=""
+          id=""
+          className="p-6 text-black"
+          value={article}
+          onChange={(e) => setArticle(e.target.value)}
+        />
+        <button onClick={handleCreateArticle}>Publish</button>
+
+        <div>
+          <h4>Articles in DB</h4>
+
+          {articles.length &&
+            articles.map((article: any) => (
+              <div
+                key={article.content}
+                className="border p-4 w-1/3 flex justify-between"
+              >
+                <p>{article.content}</p>
+
+                <button
+                  className="bg-green-500 p-2"
+                  onClick={() => {
+                    setClap((p) => (p <= 10 ? p + 1 : 10));
+                  }}
+                >
+                  {" "}
+                  {clap}
+                  Clap 👏🏾{" "}
+                </button>
+              </div>
+            ))}
+        </div>
+      </div>
     </div>
   );
 }

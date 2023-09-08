@@ -16,6 +16,8 @@ export const asyncWrapper = async (asyncFunc: AsyncFunc, ...args: any[]) => {
       data = await asyncFunc(a, b, c);
     } else if (args.length > 3) {
       throw new Error("Too many arguments specified");
+    } else {
+      data = await asyncFunc();
     }
     return [data, null];
   } catch (error) {
