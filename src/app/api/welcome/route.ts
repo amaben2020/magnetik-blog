@@ -1,4 +1,3 @@
-import { createUser } from "@/app/utils/api/user/create-user";
 import { NextResponse } from "next/server";
 
 export const GET = async (req: any, res: any) => {
@@ -8,10 +7,8 @@ export const GET = async (req: any, res: any) => {
 };
 
 export const POST = async (req: Request, res: NextResponse) => {
-  const { email, name, userId } = await req.json();
-
-  await createUser(email, userId, name);
   return NextResponse.json({
-    message: "Congrats check your email",
+    message:
+      "Congrats check your email cos this is a webhook that fires whenever a new user is created in our app",
   });
 };

@@ -11,9 +11,9 @@ export default function Home() {
   const router = useRouter();
 
   const getUsers = useCallback(async () => {
-    const { data } = await axios.get("/api/users");
-    setUsers(data.users);
     try {
+      const { data } = await axios.get("/api/users");
+      setUsers(data.users);
     } catch (error) {
       console.log(error);
     }
@@ -27,7 +27,7 @@ export default function Home() {
   }, [router, userId, getUsers]);
 
   const handleUserCreate = async () => {
-    await axios.post("/api/welcome", {
+    await axios.post("/api/follow-user", {
       email: data.user?.primaryEmailAddress?.emailAddress,
       userId,
       name: data.user?.fullName,
