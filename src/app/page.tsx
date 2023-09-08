@@ -35,18 +35,19 @@ export default function Home() {
     });
   };
 
+  const authorId =
+    !!users.length &&
+    users.length &&
+    //@ts-ignore
+    users?.find((user) => user?.clerkId === userId).id;
+
   const handleCreateArticle = async () => {
     await axios.post("/api/article", {
       content: article,
-      authorId:
-        !!users.length && users?.find((user) => user?.clerkId === userId).id,
+      authorId: authorId,
       published: true,
     });
   };
-  console.log(
-    "users.find((user) => user?.clerkId === userId).id",
-    users.find((user) => user?.clerkId === userId)?.id,
-  );
 
   const handleFollowUser = async (userId: any, followUserId: string) => {
     try {
