@@ -1,0 +1,95 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+enum ArticleCategory {
+ Technology
+ Software 
+ Research
+ Frameworks
+ Product
+ Design
+ Management
+ Leadership
+ SAAS
+ AI
+ ML
+}
+
+model User {
+  id    Int    @id @default(autoincrement())
+  name String  @map("fullName")
+  email String @unique  
+  clerkId String  @unique
+  createdAt DateTime @default(now())
+  updtedAt DateTime @updatedAt
+  profile Profile?
+  articles Article[]
+  followedBy Follows[] @relation("following")
+  following  Follows[] @relation("follower")
+}
+model Follows {
+  followerId  Int
+  follower    User @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId Int
+  following   User @relation("following", fields: [followingId], references: [id], onDelete:Cascade)
+  @@id([followerId, followingId])
+}
+
+model Article{
+  id String @id
+  content String @db.Text // long string
+  categories Category[]
+  published Boolean @default(false)  
+  createdAt DateTime @default(now())
+  updtedAt DateTime @updatedAt
+  authorId Int @unique
+  author User? @relation( fields: [authorId] , references: [id], onDelete:Cascade)
+  comments Comment[]
+  clap Int @default(0)
+}
+model Followers{
+  id String @id
+  createdAt DateTime @default(now())
+  updtedAt DateTime @updatedAt
+ 
+}
+model Following{
+  id String @id
+  createdAt DateTime @default(now())
+  updtedAt DateTime @updatedAt
+}
+model Profile{
+id Int @id @default(autoincrement())
+ userId Int @unique
+ user User @relation(fields: [userId], references: [id])
+ createdAt DateTime @default(now())
+ updtedAt DateTime @updatedAt
+}
+model Category{
+  id String @id
+  category ArticleCategory[]
+  articles Article[]
+  createdAt DateTime @default(now())
+  updtedAt DateTime @updatedAt
+}
+model Comment{
+  id String @id
+  name String
+  body String @db.Text
+  createdAt DateTime @default(now())
+  updtedAt DateTime @updatedAt
+  articleId String @unique
+  article Article @relation(fields: [articleId], references: [id])
+}
+
+
