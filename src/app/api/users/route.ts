@@ -17,6 +17,7 @@ export const GET = async () => {
   }
 };
 
+// creating a new user
 export const POST = async (req: Request, res: NextResponse) => {
   const { email, name, userId } = await req.json();
 
@@ -27,10 +28,13 @@ export const POST = async (req: Request, res: NextResponse) => {
     name,
   );
 
-  // await createUser(email, userId, name);
-  console.log("users", users);
-  console.log("users error ❌", userError);
-  return NextResponse.json({
-    users,
-  });
+  if (users) {
+    return NextResponse.json({
+      users,
+    });
+  } else if (userError) {
+    return NextResponse.json({
+      userError,
+    });
+  }
 };

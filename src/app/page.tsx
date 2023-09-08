@@ -27,14 +27,14 @@ export default function Home() {
   }, [router, userId, getUsers]);
 
   const handleUserCreate = async () => {
-    await axios.post("/api/follow-user", {
+    await axios.post("/api/users", {
       email: data.user?.primaryEmailAddress?.emailAddress,
       userId,
       name: data.user?.fullName,
     });
   };
 
-  const followUser = async (userId: any, followUserId: string) => {
+  const handleFollowUser = async (userId: any, followUserId: string) => {
     try {
       await axios.post("/api/follow-user", {
         userId,
@@ -65,7 +65,7 @@ export default function Home() {
             </div>
 
             <button
-              onClick={() => followUser(userId, user.clerkId)}
+              onClick={() => handleFollowUser(userId, user.clerkId)}
               className="bg-green-500 p-2 m-3"
               // disabled:bg-green-200 cursor-not-allowed text-black
               disabled={user.clerkId === userId}
