@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 export default function Home() {
   const [users, setUsers] = useState([]);
   const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const [article, setArticle] = useState("");
   const data = useUser();
   const router = useRouter();
 
@@ -33,6 +34,19 @@ export default function Home() {
       name: data.user?.fullName,
     });
   };
+
+  const handleCreateArticle = async () => {
+    await axios.post("/api/article", {
+      content: article,
+      authorId:
+        !!users.length && users?.find((user) => user?.clerkId === userId).id,
+      published: true,
+    });
+  };
+  console.log(
+    "users.find((user) => user?.clerkId === userId).id",
+    users.find((user) => user?.clerkId === userId)?.id,
+  );
 
   const handleFollowUser = async (userId: any, followUserId: string) => {
     try {
@@ -75,6 +89,15 @@ export default function Home() {
           </div>
         ))}
       </div>
+      <h3>Create Article</h3>
+      <textarea
+        name=""
+        id=""
+        className="p-6 text-black"
+        value={article}
+        onChange={(e) => setArticle(e.target.value)}
+      />
+      <button onClick={handleCreateArticle}>Publish</button>
     </div>
   );
 }

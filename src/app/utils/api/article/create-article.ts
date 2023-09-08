@@ -5,12 +5,14 @@ import prisma from "prisma/db";
 export const createArticle = async (
   content: string,
   authorId: number,
-  categories: any,
+  published: boolean,
 ) => {
+  console.log("content", content);
   await prisma.article.create({
     data: {
       content,
       authorId,
+      published,
       // commented code would be used to update an article when their individual buttons are clicked. Our function for create mostly requires the content
       // categories Category[]
       // published Boolean @default(false)

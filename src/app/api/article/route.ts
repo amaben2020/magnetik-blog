@@ -1,12 +1,10 @@
+import { createArticle } from "@/app/utils/api/article/create-article";
 import { asyncWrapper } from "@/app/utils/api/async-wrapper";
-import { createUser } from "@/app/utils/api/user/create-user";
 import { getUsers } from "@/app/utils/api/user/get-users";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {
   const users = await getUsers();
-
-  console.log(users);
 
   try {
     return NextResponse.json({
@@ -19,22 +17,22 @@ export const GET = async () => {
 
 // creating a new user
 export const POST = async (req: Request, res: NextResponse) => {
-  const { email, name, userId } = await req.json();
+  const { content, authorId, published } = await req.json();
 
-  const [users, userError] = await asyncWrapper(
-    createUser,
-    email,
-    userId,
-    name,
+  const [article, articleError] = await asyncWrapper(
+    createArticle,
+    content,
+    authorId,
+    published,
   );
 
-  if (users) {
+  if (article) {
     return NextResponse.json({
-      users,
+      article,
     });
-  } else if (userError) {
+  } else if (articleError) {
     return NextResponse.json({
-      userError,
+      articleError,
     });
   }
 };
