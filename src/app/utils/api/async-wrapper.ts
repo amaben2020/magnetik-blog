@@ -3,7 +3,7 @@
 type AsyncFunc = (...args: any[]) => Promise<any>;
 
 export const asyncWrapper = async (asyncFunc: AsyncFunc, ...args: any[]) => {
-  console.log("ARGUMENTS Called", args);
+  // calls any asynchronous function inside try/catch block
   try {
     let data;
     if (args.length === 1) {

@@ -46,7 +46,7 @@ model Follows {
 }
 
 model Article{
-  id String @id
+  id String @id @default(cuid())   
   content String @db.Text // long string
   categories Category[]
   published Boolean @default(false)  
@@ -55,16 +55,16 @@ model Article{
   authorId Int @unique
   author User? @relation( fields: [authorId] , references: [id], onDelete:Cascade)
   comments Comment[]
-  clap Int @default(0)
+  clap Int? @default(0)
 }
 model Followers{
-  id String @id
+  id String @id @default(cuid())
   createdAt DateTime @default(now())
   updtedAt DateTime @updatedAt
  
 }
 model Following{
-  id String @id
+  id String @id @default(cuid())
   createdAt DateTime @default(now())
   updtedAt DateTime @updatedAt
 }
@@ -76,14 +76,14 @@ id Int @id @default(autoincrement())
  updtedAt DateTime @updatedAt
 }
 model Category{
-  id String @id
+  id String @id @default(cuid())
   category ArticleCategory[]
   articles Article[]
   createdAt DateTime @default(now())
   updtedAt DateTime @updatedAt
 }
 model Comment{
-  id String @id
+  id String @id @default(cuid())
   name String
   body String @db.Text
   createdAt DateTime @default(now())
