@@ -1,18 +1,80 @@
 "use client";
-import { UserButton, useAuth } from "@clerk/nextjs";
+import { UserButton, useAuth, useUser } from "@clerk/nextjs";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 
 export default function Home() {
+  const [users, setUsers] = useState([]);
   const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const data = useUser();
+  const router = useRouter();
 
-  // In case the user signs out while on the page
-  if (!isLoaded || !userId) {
-    return null;
-  }
+  const getUsers = useCallback(async () => {
+    try {
+      const { data } = await axios.get("/api/users");
+      setUsers(data.users);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!userId) {
+      router.push("/sign-in");
+    }
+    getUsers();
+  }, [router, userId, getUsers]);
+
+  const handleUserCreate = async () => {
+    await axios.post("/api/users", {
+      email: data.user?.primaryEmailAddress?.emailAddress,
+      userId,
+      name: data.user?.fullName,
+    });
+  };
+
+  const handleFollowUser = async (userId: any, followUserId: string) => {
+    try {
+      await axios.post("/api/follow-user", {
+        userId,
+        followUserId,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
       <UserButton afterSignOutUrl="/" />
       Hello, {userId} your current active session is {sessionId}
+      <button className="bg-green-500 p-4" onClick={handleUserCreate}>
+        Create User
+      </button>
+      <h2>Users in App 🤖</h2>
+      <div className="m-3">
+        {users?.map((user: any) => (
+          <div
+            className="p-4 my-4 border flex max-w-md justify-between items-center"
+            key={user.clerkId}
+          >
+            <div>
+              <p> id : {user.clerkId} </p>
+              <p className="my-2"> name : {user.name} </p>
+            </div>
+
+            <button
+              onClick={() => handleFollowUser(userId, user.clerkId)}
+              className="bg-green-500 p-2 m-3"
+              // disabled:bg-green-200 cursor-not-allowed text-black
+              disabled={user.clerkId === userId}
+            >
+              Follow
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
