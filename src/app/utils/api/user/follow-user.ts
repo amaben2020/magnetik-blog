@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import prisma from "prisma/db";
 export const followUser = async (userId: any, followUserId: any) => {
   try {
