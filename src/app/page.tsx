@@ -1,19 +1,23 @@
 "use client";
 import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
   const { isLoaded, userId, sessionId, getToken } = useAuth();
   const data = useUser();
-
-  console.log("Data", data);
-
-  console.log("userId", userId);
+  const router = useRouter();
 
   // In case the user signs out while on the page
-  if (!isLoaded || !userId) {
-    return null;
-  }
+  useEffect(() => {
+    if (!userId) router.push("/sign-in");
+  }, [router, userId]);
+
+  const getUsers = () => {
+    try {
+    } catch (error) {}
+  };
 
   const handleUserCreate = async () => {
     await axios.post("/api/welcome", {
