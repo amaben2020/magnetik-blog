@@ -1,6 +1,6 @@
 const Card = () => {
   return (
-    <div className="border max-w-[420px]">
+    <div className="max-w-[420px]">
       <div className="bg-gray-500 rounded-2xl h-60">IMAGE HERE</div>
 
       <div className="my-6">
