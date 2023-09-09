@@ -6,7 +6,10 @@ import { useCallback, useEffect, useState } from "react";
 
 export default function Home() {
   const [users, setUsers] = useState([]);
+  const [articles, setArticles] = useState<any>([]);
+  const [clap, setClap] = useState(0);
   const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const [article, setArticle] = useState("");
   const data = useUser();
   const router = useRouter();
 
@@ -34,6 +37,20 @@ export default function Home() {
     });
   };
 
+  const authorId =
+    !!users.length &&
+    users.length &&
+    //@ts-ignore
+    users?.find((user) => user?.clerkId === userId)?.id;
+
+  const handleCreateArticle = async () => {
+    await axios.post("/api/article", {
+      content: article,
+      authorId: authorId,
+      published: true,
+    });
+  };
+
   const handleFollowUser = async (userId: any, followUserId: string) => {
     try {
       await axios.post("/api/follow-user", {
@@ -44,6 +61,37 @@ export default function Home() {
       console.log(error);
     }
   };
+
+  const fetchArticles = useCallback(async () => {
+    try {
+      const { data } = await axios.get("/api/article");
+      console.log("articles", data);
+      setArticles(data.articles);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const clapArticle = useCallback(
+    async (id: string) => {
+      try {
+        const { data } = await axios.patch(
+          `/api/article/clap?articleId=${id}&clap=${clap}`,
+        );
+        console.log("PUT CLAP", data);
+        // console.log("articles", data);
+        // setArticles(data.articles);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [clap],
+  );
+
+  // later use swr or react query to have caching feature
+  useEffect(() => {
+    fetchArticles();
+  }, [fetchArticles]);
 
   return (
     <div>
@@ -74,6 +122,44 @@ export default function Home() {
             </button>
           </div>
         ))}
+      </div>
+      <div>
+        <h3>Create Article</h3>
+        <textarea
+          name=""
+          id=""
+          className="p-6 text-black"
+          value={article}
+          onChange={(e) => setArticle(e.target.value)}
+        />
+        <button onClick={handleCreateArticle}>Publish</button>
+
+        <div>
+          <h4>Articles in DB</h4>
+
+          {articles?.map((article: any) => (
+            <div
+              key={article.content}
+              className="border p-4 w-1/3 flex justify-between"
+            >
+              <p>
+                {article.content} clap: {article.clap}
+              </p>
+
+              <button
+                className="bg-green-500 p-2"
+                onClick={async () => {
+                  setClap((p) => (p <= 10 ? p + 1 : 10));
+                  await clapArticle(article?.id);
+                }}
+              >
+                {" "}
+                {clap}
+                Clap 👏🏾{" "}
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
