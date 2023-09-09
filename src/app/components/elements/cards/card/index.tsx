@@ -1,7 +1,19 @@
-const Card = () => {
+import Image from "next/image";
+
+const Card = ({ title, image, author, subtitle }: TCard) => {
   return (
     <div className="max-w-[420px]">
-      <div className="bg-gray-500 rounded-2xl h-60">IMAGE HERE</div>
+      <div className="rounded-2xl h-60">
+        <Image
+          className="rounded-2xl h-full"
+          src="https://via.placeholder.com/350x150"
+          alt={title}
+          width={450}
+          height={400}
+        />
+
+        <div>TAG: Tech with colors</div>
+      </div>
 
       <div className="my-6">
         <div className="flex justify-between">
