@@ -162,7 +162,12 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <Card />
+      <Card
+        title="Hey Jude"
+        subtitle="How do you create compelling presentations that wow your colleagues and impress your managers?"
+        image="https://via.placeholder.com/350x150"
+        author={{}}
+      />
     </div>
   );
 }

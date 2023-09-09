@@ -6,7 +6,7 @@ const Card = ({ title, image, author, subtitle }: TCard) => {
       <div className="rounded-2xl h-60">
         <Image
           className="rounded-2xl h-full"
-          src="https://via.placeholder.com/350x150"
+          src={image}
           alt={title}
           width={450}
           height={400}
@@ -17,15 +17,11 @@ const Card = ({ title, image, author, subtitle }: TCard) => {
 
       <div className="my-6">
         <div className="flex justify-between">
-          <h3>UX review presentations</h3>
+          <h3>{title}</h3>
 
-          <p> ARROW LINK HERE</p>
+          <p className="text-red-500"> ARROW LINK HERE</p>
         </div>
-        <p>
-          {" "}
-          How do you create compelling presentations that wow your colleagues
-          and impress your managers?
-        </p>
+        <p> {subtitle}</p>
         Avatar Component Here
       </div>
     </div>
