@@ -10,6 +10,7 @@ export const ThemeSwitcher = () => {
     setMounted(true);
   }, []);
 
+  // prevent hydration error
   if (!mounted) {
     return null;
   }
