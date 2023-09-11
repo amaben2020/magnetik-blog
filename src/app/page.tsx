@@ -150,7 +150,7 @@ export default function Home() {
               <button
                 className="bg-green-500 p-2"
                 onClick={async () => {
-                  setClap((p) => (p <= 10 ? p + 1 : 10));
+                  setClap((p) => (p >= 10 ? 10 : p + 1));
                   await clapArticle(article?.id);
                 }}
               >
