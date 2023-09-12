@@ -9,7 +9,7 @@ export const getArticles = async () => {
         author: true,
       },
     });
-    console.log("data", data);
+
     return data;
   } catch (error) {
     console.log(error);

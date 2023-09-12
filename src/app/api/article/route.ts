@@ -7,7 +7,6 @@ import { NextResponse } from "next/server";
 
 export const GET = async () => {
   const [articles, error] = await asyncWrapper(getArticles);
-  console.log("articles", articles);
 
   return NextResponse.json({
     articles,
