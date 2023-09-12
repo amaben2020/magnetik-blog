@@ -1,7 +1,7 @@
 import { ThemeSwitcher } from "../../theme/button/toggle-button";
 const NavigationBar = () => {
   return (
-    <nav>
+    <nav className="p-6 dark:bg-black bg-white shadow-lg shadow-black border dark:border-none">
       NavigationBar
       <ThemeSwitcher />
     </nav>
