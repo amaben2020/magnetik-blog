@@ -1,4 +1,4 @@
-import ArticlePageLayout from "../components/templates/article-page-layout";
+import ArticlePageLayout from "../../components/templates/article-page-layout";
 
 const Articles = () => {
   return (

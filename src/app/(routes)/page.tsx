@@ -3,7 +3,7 @@ import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import Card from "./components/elements/cards/card";
+import Card from "../components/elements/cards/card";
 
 export default function Home() {
   const [users, setUsers] = useState([]);
