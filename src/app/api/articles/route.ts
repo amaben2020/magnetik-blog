@@ -3,8 +3,8 @@ import { asyncWrapper } from "@/app/utils/api/async-wrapper";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {
-  const [articles, errorArticles] = asyncWrapper(getArticles);
-
+  const [articles, errorArticles] = await asyncWrapper(getArticles);
+  console.log(articles);
   if (articles) {
     return NextResponse.json({
       articles,

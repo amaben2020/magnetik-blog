@@ -1,10 +1,28 @@
 import ArticlePageLayout from "../../components/templates/article-page-layout";
+const fetchArticles = async () => {
+  const data = await fetch("http://localhost:3000/api/articles");
 
-const Articles = () => {
+  return await data.json();
+};
+const Articles = async () => {
+  const { articles } = await fetchArticles();
+
   return (
     <ArticlePageLayout>
-      Articles page would loop through all articles in Prisma and vercel
-      serverless
+      <div>
+        <h2>
+          {" "}
+          Articles page would loop through all articles in Prisma and vercel
+          serverless{" "}
+        </h2>
+
+        {articles.length > 0 &&
+          articles.map((article) => (
+            <div className="my-3" key={article.id}>
+              {article.content}
+            </div>
+          ))}
+      </div>
     </ArticlePageLayout>
   );
 };
