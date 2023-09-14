@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ArticlePageLayout from "../../components/templates/article-page-layout";
 const fetchArticles = async () => {
   const data = await fetch("http://localhost:3000/api/articles");
@@ -18,7 +19,11 @@ const Articles = async () => {
 
         {articles.length > 0 &&
           articles.map((article: any) => (
-            <div className="my-3" key={article.id}>
+            <Link
+              href={`/article/${article.id}`}
+              className="my-3"
+              key={article.id}
+            >
               {article.content}
 
               {article.published && (
@@ -26,7 +31,7 @@ const Articles = async () => {
               )}
 
               {article.author?.name}
-            </div>
+            </Link>
           ))}
       </div>
     </ArticlePageLayout>
