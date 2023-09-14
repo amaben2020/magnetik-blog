@@ -8,6 +8,11 @@ import axios from "axios";
 import { useAutosave } from "react-autosave";
 
 const EditArticle = ({ content }: { content: string }) => {
+  const ReactQuill = useMemo(
+    () => dynamic(() => import("react-quill"), { ssr: false }),
+    [],
+  );
+
   const [value, setValue] = useState(content);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -34,10 +39,6 @@ const EditArticle = ({ content }: { content: string }) => {
   useAutosave({ data: value, onSave: doApiStuffOnSave });
 
   // move to Editor.tsx
-  const ReactQuill = useMemo(
-    () => dynamic(() => import("react-quill"), { ssr: false }),
-    [],
-  );
 
   return (
     <div className="p-10">
