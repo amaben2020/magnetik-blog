@@ -17,9 +17,15 @@ const Articles = async () => {
         </h2>
 
         {articles.length > 0 &&
-          articles.map((article) => (
+          articles.map((article: any) => (
             <div className="my-3" key={article.id}>
               {article.content}
+
+              {article.published && (
+                <div className="bg-green-500 rounded-2xl w-9"></div>
+              )}
+
+              {article.author?.name}
             </div>
           ))}
       </div>
