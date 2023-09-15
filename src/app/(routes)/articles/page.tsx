@@ -1,14 +1,18 @@
 import Button from "@/app/components/elements/button";
 import Link from "next/link";
-import * as sanitizeHtml from "sanitize-html";
+
+import { htmlSanitizeAndDecode } from "@/app/utils/sanitize-decode-html";
 import ArticlePageLayout from "../../components/templates/article-page-layout";
 const fetchArticles = async () => {
-  const data = await fetch("http://localhost:3000/api/articles");
+  const data = await fetch("http://localhost:3000/api/articles", {
+    cache: "no-store",
+  });
 
   return await data.json();
 };
 const Articles = async () => {
   const { articles } = await fetchArticles();
+ 
 
   return (
     <ArticlePageLayout>
@@ -29,7 +33,7 @@ const Articles = async () => {
             >
               <div
                 dangerouslySetInnerHTML={{
-                  __html: sanitizeHtml(article.content),
+                  __html: htmlSanitizeAndDecode(article.content),
                 }}
               />
 

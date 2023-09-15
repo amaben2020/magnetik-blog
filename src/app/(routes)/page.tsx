@@ -39,8 +39,7 @@ export default function Home() {
   };
 
   const authorId =
-    !!users.length &&
-    users.length &&
+    !!users?.length &&
     //@ts-ignore
     users?.find((user) => user?.clerkId === userId)?.id;
 
