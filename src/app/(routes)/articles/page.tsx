@@ -1,4 +1,5 @@
 import Link from "next/link";
+import * as sanitizeHtml from "sanitize-html";
 import ArticlePageLayout from "../../components/templates/article-page-layout";
 const fetchArticles = async () => {
   const data = await fetch("http://localhost:3000/api/articles");
@@ -24,7 +25,11 @@ const Articles = async () => {
               className="my-3"
               key={article.id}
             >
-              {article.content}
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHtml(article.content),
+                }}
+              />
 
               {article.published && (
                 <div className="bg-green-500 rounded-2xl w-9"></div>
