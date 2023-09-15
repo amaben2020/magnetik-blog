@@ -4,15 +4,16 @@ import Link from "next/link";
 import { htmlSanitizeAndDecode } from "@/app/utils/sanitize-decode-html";
 import ArticlePageLayout from "../../components/templates/article-page-layout";
 const fetchArticles = async () => {
-  const data = await fetch("http://localhost:3000/api/articles", {
-    cache: "no-store",
-  });
+  const data = await fetch(
+    "http://localhost:3000/api/articles",
+    //   {cache: "no-store"} used if you want the page to be refetched everytime
+    { next: { revalidate: 3600 } },
+  );
 
   return await data.json();
 };
 const Articles = async () => {
   const { articles } = await fetchArticles();
- 
 
   return (
     <ArticlePageLayout>

@@ -7,38 +7,34 @@ import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import { useAutosave } from "react-autosave";
 
-const EditArticle = ({ content }: { content: string }) => {
+const EditArticle = () => {
+  // move to Editor.tsx
   const ReactQuill = useMemo(
     () => dynamic(() => import("react-quill"), { ssr: false }),
     [],
   );
 
-  const [value, setValue] = useState(content);
+  const [value, setValue] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
   const MOCK_ARTICLE_ID = "clmasciul00099k1gg77czzd1";
 
-  const doApiStuffOnSave = useCallback(
-    async (data: string) => {
-      if (data === content) return;
-      setIsSaving(true);
-      try {
-        await axios.patch(`/api/article?articleId=${MOCK_ARTICLE_ID}`, {
-          content: data,
-        });
-      } catch (error) {
-        console.log("error", error);
-      } finally {
-        console.log("DONE");
-        setIsSaving(false);
-      }
-    },
-    [content],
-  );
+  const doApiStuffOnSave = useCallback(async (data: string) => {
+    // if (data === content) return;
+    setIsSaving(true);
+    try {
+      await axios.patch(`/api/article?articleId=${MOCK_ARTICLE_ID}`, {
+        content: data,
+      });
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      console.log("DONE");
+      setIsSaving(false);
+    }
+  }, []);
 
   useAutosave({ data: value, onSave: doApiStuffOnSave });
-
-  // move to Editor.tsx
 
   return (
     <div className="p-10">
