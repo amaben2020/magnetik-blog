@@ -1,3 +1,4 @@
+import Button from "@/app/components/elements/button";
 import Link from "next/link";
 import * as sanitizeHtml from "sanitize-html";
 import ArticlePageLayout from "../../components/templates/article-page-layout";
@@ -18,6 +19,7 @@ const Articles = async () => {
           serverless{" "}
         </h2>
 
+        <Button className="border">Button</Button>
         {articles.length > 0 &&
           articles.map((article: any) => (
             <Link

@@ -1,14 +1,13 @@
-import { Component } from "react";
 import { twMerge } from "tailwind-merge";
 
-interface TButton extends Component<"button"> {
-  className: string;
+interface TButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
 }
 
-const Button = ({ className, ...rest }: TButton) => {
+const Button = ({ children, className, ...rest }: TButton) => {
   return (
     <button className={twMerge("px-3", className)} {...rest}>
-      Button
+      {children}
     </button>
   );
 };
