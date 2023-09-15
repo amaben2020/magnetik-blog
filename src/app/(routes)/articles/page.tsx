@@ -1,4 +1,3 @@
-import Button from "@/app/components/elements/button";
 import Link from "next/link";
 
 import { htmlSanitizeAndDecode } from "@/app/utils/sanitize-decode-html";
@@ -24,7 +23,8 @@ const Articles = async () => {
           serverless{" "}
         </h2>
 
-        <Button className="border">Button</Button>
+        <Link href="/article/create"> Create Article ➕</Link>
+
         {articles.length > 0 &&
           articles.map((article: any) => (
             <Link
