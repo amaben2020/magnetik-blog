@@ -94,8 +94,6 @@ const CreateArticlePage = () => {
     setCategories(selected);
   };
 
-  console.log(categories);
-
   return (
     <div className="p-10">
       <div>
