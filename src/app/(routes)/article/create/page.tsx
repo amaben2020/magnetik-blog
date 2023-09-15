@@ -11,9 +11,16 @@ const CreateArticlePage = () => {
   const [isSaving, setIsSaving] = useState(false);
 
   const options = [
-    { value: "chocolate", label: "Chocolate", color: "brown" },
-    { value: "strawberry", label: "Strawberry", color: "red" },
-    { value: "vanilla", label: "Vanilla", color: "yellow" },
+    { value: "Technology", label: "Technology", color: "green" },
+    { value: "Software Research", label: "Software Research", color: "red" },
+    { value: "Frameworks", label: "Frameworks", color: "orange" },
+    { value: "Product", label: "Product", color: "black" },
+    { value: "Design", label: "Design", color: "purple" },
+    { value: "Management", label: "Management", color: "cyan" },
+    { value: "Leadership", label: "Leadership", color: "violet" },
+    { value: "SAAS", label: "SAAS", color: "grey" },
+    { value: "AI", label: "AI", color: "pink" },
+    { value: "ML", label: "ML", color: "brown" },
   ];
 
   const MOCK_ARTICLE_ID = "clmasciul00099k1gg77czzd1";
@@ -97,10 +104,8 @@ const CreateArticlePage = () => {
   return (
     <div className="p-10">
       <div>
-        1. CreateArticlePage Add Categories: [React Select and API calls][
-        Technology Software Research Frameworks Product Design Management
-        Leadership SAAS AI ML] Redirect 2. User to articles page with newest
-        first sorted
+        1. CreateArticlePage Add Categories: [React Select and API calls]
+        Redirect 2. User to articles page with newest first sorted
         <Select
           closeMenuOnSelect={false}
           defaultValue={[options[0], options[1]]}
