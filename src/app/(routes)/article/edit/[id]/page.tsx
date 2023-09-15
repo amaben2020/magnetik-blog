@@ -1,19 +1,12 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import "react-quill/dist/quill.snow.css";
 
+import Editor from "@/app/components/elements/editor";
 import axios from "axios";
-import { useAutosave } from "react-autosave";
 
 const EditArticle = () => {
-  // move to Editor.tsx
-  const ReactQuill = useMemo(
-    () => dynamic(() => import("react-quill"), { ssr: false }),
-    [],
-  );
-
   const [value, setValue] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
@@ -34,16 +27,13 @@ const EditArticle = () => {
     }
   }, []);
 
-  useAutosave({ data: value, onSave: doApiStuffOnSave });
-
   return (
     <div className="p-10">
-      {isSaving && <p>Saving ...</p>}
-      <ReactQuill
-        className="h-[500px] dark:bg-black dark:text-white"
-        theme="snow"
-        value={value}
-        onChange={setValue}
+      <Editor
+        content={value}
+        setContent={setValue}
+        isSaving={isSaving}
+        updateArticlePromise={doApiStuffOnSave}
       />
     </div>
   );
