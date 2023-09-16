@@ -52,7 +52,7 @@ model Article{
   published Boolean @default(false)  
   createdAt DateTime @default(now())
   updtedAt DateTime @updatedAt
-  authorId Int @unique
+  authorId Int 
   author User? @relation( fields: [authorId] , references: [id], onDelete:Cascade)
   comments Comment[]
   clap Int? @default(0)

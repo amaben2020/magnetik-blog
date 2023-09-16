@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/app/components/elements/button";
 import Editor from "@/app/components/elements/editor";
 import axios from "axios";
 import chroma from "chroma-js";
@@ -16,17 +17,17 @@ const CreateArticlePage = () => {
     { value: "Frameworks", label: "Frameworks", color: "orange" },
     { value: "Product", label: "Product", color: "black" },
     { value: "Design", label: "Design", color: "purple" },
-    { value: "Management", label: "Management", color: "cyan" },
+    { value: "Management", label: "Management", color: "brown" },
     { value: "Leadership", label: "Leadership", color: "violet" },
     { value: "SAAS", label: "SAAS", color: "grey" },
     { value: "AI", label: "AI", color: "pink" },
-    { value: "ML", label: "ML", color: "brown" },
+    { value: "ML", label: "ML", color: "#6941C6" },
   ];
 
   const MOCK_ARTICLE_ID = "clmasciul00099k1gg77czzd1";
 
   const doApiStuffOnSave = useCallback(async (data: string) => {
-    // if (data === content) return;
+    // if (data === content) return; use this for when you pass down content
     setIsSaving(true);
     try {
       await axios.patch(`/api/article?articleId=${MOCK_ARTICLE_ID}`, {
@@ -101,6 +102,21 @@ const CreateArticlePage = () => {
     setCategories(selected);
   };
 
+  const handleCreateArticle = async () => {
+    try {
+      const data = await axios.post("/api/article", {
+        content: value,
+        authorId: 4,
+        published: true,
+        categories,
+      });
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="p-10">
       <div>
@@ -121,7 +137,11 @@ const CreateArticlePage = () => {
           isSaving={isSaving}
           updateArticlePromise={doApiStuffOnSave}
         />
-      </div>
+      </div>{" "}
+      <Button onClick={handleCreateArticle} className="border">
+        {" "}
+        Create Article{" "}
+      </Button>
     </div>
   );
 };

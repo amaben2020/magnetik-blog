@@ -15,24 +15,30 @@ export const GET = async () => {
 
 // creating a new article
 export const POST = async (req: Request) => {
-  const { content, authorId, published } = await req.json();
+  const { content, authorId, published, categories } = await req.json();
 
-  const [article, articleError] = await asyncWrapper(
-    createArticle,
-    content,
-    authorId,
-    published,
-  );
+  console.log(content, authorId, published, categories);
+  try {
+    const article = await createArticle(
+      content,
+      authorId,
+      published,
+      categories,
+    );
 
-  if (article) {
+    console.log("article", article);
     return NextResponse.json({
       article,
     });
-  } else if (articleError) {
-    return NextResponse.json({
-      articleError,
-    });
+  } catch (error) {
+    console.log("Error", error);
   }
+
+  // else if (articleError) {
+  //   return NextResponse.json({
+  //     articleError,
+  //   });
+  // }
 };
 
 export const PATCH = async (req: Request) => {

@@ -7,6 +7,7 @@ export const getArticles = async () => {
     const data = await prisma.article.findMany({
       include: {
         author: true,
+        categories: true,
       },
     });
 

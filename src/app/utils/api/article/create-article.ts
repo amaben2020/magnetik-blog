@@ -6,19 +6,54 @@ export const createArticle = async (
   content: string,
   authorId: number,
   published: boolean,
+  categories: string[],
 ) => {
-  console.log("content", content);
-  await prisma.article.create({
-    data: {
-      content,
-      authorId,
-      published,
-      // commented code would be used to update an article when their individual buttons are clicked. Our function for create mostly requires the content
-      // categories Category[]
-      // published Boolean @default(false)
-      // author User? @relation( fields: [authorId] , references: [id], onDelete:Cascade)
-      // comments Comment[]
-      // clap Int @default(0)
-    },
-  });
+  try {
+    const categoryInDB = await prisma?.category.findMany();
+    const existingCategory = categoryInDB?.find((post) => {
+      //@ts-ignore
+      return categories.every((category) => post.category?.includes(category));
+    });
+
+    if (existingCategory) {
+      await prisma.article.create({
+        data: {
+          content,
+          authorId: Number(authorId),
+          published,
+          categories: {
+            connectOrCreate: {
+              where: { id: existingCategory?.id },
+              create: { category: categories },
+            },
+          },
+        },
+        include: {
+          categories: true,
+        },
+      });
+    }
+
+    await prisma.article.create({
+      data: {
+        content,
+        authorId: Number(authorId),
+        published,
+        categories: {
+          connect: {
+            create: { category: categories?.map((category) => category) },
+          },
+        },
+      },
+      include: {
+        categories: true,
+      },
+    });
+
+    // if the category exists based on the categories passed from req.body, simply update the category with the next article
+  } catch (error) {
+    console.log("Error", error);
+  } finally {
+    await prisma.$disconnect();
+  }
 };
