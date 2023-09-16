@@ -17,7 +17,6 @@ export const GET = async () => {
 export const POST = async (req: Request) => {
   const { content, authorId, published, categories } = await req.json();
 
-  console.log(content, authorId, published, categories);
   try {
     const article = await createArticle(
       content,
@@ -26,7 +25,6 @@ export const POST = async (req: Request) => {
       categories,
     );
 
-    console.log("article", article);
     return NextResponse.json({
       article,
     });

@@ -1,6 +1,7 @@
 // no need for try/catch due to asyncHandler hoc
 
 import prisma from "prisma/db";
+import { arraysAreEqual } from "../../arrays-are-equals";
 
 export const createArticle = async (
   content: string,
@@ -10,12 +11,19 @@ export const createArticle = async (
 ) => {
   try {
     const categoryInDB = await prisma?.category.findMany();
-    const existingCategory = categoryInDB?.find((post) => {
-      //@ts-ignore
-      return categories.every((category) => post.category?.includes(category));
-    });
+    // const existingCategory = categoryInDB?.find((post) => {
+    //   //@ts-ignore
+    //   return categories.every((category) => post.category?.includes(category));
+    // });
+    // console.log("existingCategory", existingCategory);
 
-    if (existingCategory) {
+    const existingCategory = categoryInDB
+      .filter((elem) => arraysAreEqual(elem.category, categories))
+      .find((elem) => elem);
+
+    console.log("Are the categories same?", existingCategory);
+
+    if (existingCategory?.id) {
       await prisma.article.create({
         data: {
           content,
@@ -24,7 +32,7 @@ export const createArticle = async (
           categories: {
             connectOrCreate: {
               where: { id: existingCategory?.id },
-              create: { category: categories },
+              create: { category: categories?.map((category) => category) },
             },
           },
         },
@@ -32,23 +40,21 @@ export const createArticle = async (
           categories: true,
         },
       });
-    }
-
-    await prisma.article.create({
-      data: {
-        content,
-        authorId: Number(authorId),
-        published,
-        categories: {
-          connect: {
-            create: { category: categories?.map((category) => category) },
+    } else {
+      await prisma.article.create({
+        data: {
+          content,
+          authorId: Number(authorId),
+          published,
+          categories: {
+            create: { category: categories },
           },
         },
-      },
-      include: {
-        categories: true,
-      },
-    });
+        include: {
+          categories: true,
+        },
+      });
+    }
 
     // if the category exists based on the categories passed from req.body, simply update the category with the next article
   } catch (error) {
