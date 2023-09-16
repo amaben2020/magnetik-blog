@@ -1,5 +1,6 @@
 // no need for try/catch due to asyncHandler hoc
-
+//@ts-nocheck
+//TODO: typescript fix for this file
 import prisma from "prisma/db";
 import { arraysAreEqual } from "../../arrays-are-equals";
 
