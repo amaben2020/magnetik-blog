@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/app/components/elements/button";
+import { getCategoriesIdsByNames } from "@/app/utils/api/category/get-category-ids-by-names";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import chroma from "chroma-js";
@@ -113,16 +114,14 @@ const CreateArticlePage = () => {
     setCategories(selected);
   };
 
-  console.log("CV", value);
-  console.log("categories", categories);
-
   const handleCreateArticle = async () => {
     try {
-       await axios.post("/api/article", {
+      await axios.post("/api/article", {
         content: value,
+        // @ts-ignore
         authorId: user?.id,
         published: true,
-        categories,
+        categories: await getCategoriesIdsByNames(categories),
       });
     } catch (error) {
       console.log(error);

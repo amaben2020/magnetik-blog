@@ -1,6 +1,6 @@
 // no need for try/catch due to asyncHandler hoc
 
-//TODO: typescript fix for this file
+//TODO: typescript fix for this file, research connect and connectAndCreate
 import prisma from "prisma/db";
 import { getCategoriesIdsByNames } from "../category/get-category-ids-by-names";
 
@@ -11,42 +11,16 @@ export const createArticle = async (
   categories: string[],
 ) => {
   try {
-    // const categoryInDB = await prisma?.category.findMany();
-
     const categoryIds = await getCategoriesIdsByNames(categories);
 
-    console.log("categryIds", categoryIds);
-
-    // const existingCategory = categoryInDB
-    //   ?.filter((elem) => arraysAreEqual(elem.category, categories))
-    //   .find((elem) => elem);
-
-    // if (existingCategory?.id) {
-    //   await prisma.article.create({
-    //     data: {
-    //       content,
-    //       authorId: Number(authorId),
-    //       published,
-    //       categories: {
-    //         connectOrCreate: {
-    //           where: { id: existingCategory?.id },
-    //           create: { category: categories?.map((category) => category) },
-    //         },
-    //       },
-    //     },
-    //     include: {
-    //       categories: true,
-    //     },
-    //   });
-    // } else {
-    await prisma.article.create({
+    const data = await prisma.article.create({
       data: {
         content,
         authorId: Number(authorId),
         published,
 
         categories: {
-          connect: categoryIds?.map((categoryId: string) => ({
+          connect: categoryIds?.map((categoryId: any) => ({
             id: categoryId,
           })),
         },
@@ -55,12 +29,11 @@ export const createArticle = async (
         categories: true,
       },
     });
-    // }
 
-    // if the category exists based on the categories passed from req.body, simply update the category with the next article
+    // always ensure your API handlers return something to prevent a 500
+    return data;
   } catch (error) {
     console.log("Error", error);
-    // throw new Error(error);
   } finally {
     await prisma.$disconnect();
   }

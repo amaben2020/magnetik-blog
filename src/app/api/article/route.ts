@@ -25,22 +25,12 @@ export const POST = async (req: Request) => {
       categories,
     );
 
-    console.log("article", article);
-
-    if (article !== undefined) {
-      return NextResponse.json({
-        article,
-      });
-    }
+    return NextResponse.json({
+      article,
+    });
   } catch (error) {
     console.log("Error", error);
   }
-
-  // else if (articleError) {
-  //   return NextResponse.json({
-  //     articleError,
-  //   });
-  // }
 };
 
 export const PATCH = async (req: Request) => {
