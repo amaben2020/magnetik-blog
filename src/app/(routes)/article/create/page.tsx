@@ -1,15 +1,43 @@
 "use client";
 
 import Button from "@/app/components/elements/button";
-import Editor from "@/app/components/elements/editor";
+import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 import chroma from "chroma-js";
-import { useCallback, useState } from "react";
+import dynamic from "next/dynamic";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Select, { StylesConfig } from "react-select";
 
 const CreateArticlePage = () => {
   const [value, setValue] = useState("");
+  const ReactQuill = useMemo(
+    () => dynamic(() => import("react-quill"), { ssr: false }),
+    [],
+  );
+
+  const [isMount, setIsMount] = useState(false);
+
+  useEffect(() => {
+    setIsMount(true);
+  }, []);
+
+  const { userId } = useAuth();
+
+  // get this from context later
+  const [user, setUser] = useState({});
   const [isSaving, setIsSaving] = useState(false);
+
+  const fetchUser = useCallback(async () => {
+    const { data } = await axios.get(`/api/user?clerkID=${userId}`);
+    console.log(data);
+    setUser(data.user);
+  }, [userId]);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
+  console.log("USER", user);
 
   const options = [
     { value: "Technology", label: "Technology", color: "green" },
@@ -23,23 +51,6 @@ const CreateArticlePage = () => {
     { value: "AI", label: "AI", color: "pink" },
     { value: "ML", label: "ML", color: "#6941C6" },
   ];
-
-  const MOCK_ARTICLE_ID = "clmasciul00099k1gg77czzd1";
-
-  const doApiStuffOnSave = useCallback(async (data: string) => {
-    // if (data === content) return; use this for when you pass down content
-    setIsSaving(true);
-    try {
-      await axios.patch(`/api/article?articleId=${MOCK_ARTICLE_ID}`, {
-        content: data,
-      });
-    } catch (error) {
-      console.log("error", error);
-    } finally {
-      console.log("DONE");
-      setIsSaving(false);
-    }
-  }, []);
 
   const colourStyles: StylesConfig<any, true> = {
     control: (styles) => ({ ...styles, backgroundColor: "white" }),
@@ -102,23 +113,29 @@ const CreateArticlePage = () => {
     setCategories(selected);
   };
 
+  console.log("CV", value);
+  console.log("categories", categories);
+
   const handleCreateArticle = async () => {
     try {
-      const data = await axios.post("/api/article", {
+       await axios.post("/api/article", {
         content: value,
-        authorId: 4,
+        authorId: user?.id,
         published: true,
         categories,
       });
-
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
 
+  if (!isMount) {
+    return null;
+  }
+
   return (
     <div className="p-10">
+      {/* Create with Edemede AI 🤖 (links to Langchain stuff) */}
       <div>
         1. CreateArticlePage Add Categories: [React Select and API calls]
         Redirect 2. User to articles page with newest first sorted
@@ -131,16 +148,23 @@ const CreateArticlePage = () => {
           styles={colourStyles}
           onChange={handleMultipleSelect}
         />
-        <Editor
-          content={value}
-          setContent={setValue}
-          isSaving={isSaving}
-          updateArticlePromise={doApiStuffOnSave}
-        />
+        <div>
+          {/* <ReactQuill
+            className="dark:bg-black dark:text-white"
+            value={value}
+            theme="snow"
+            onChange={setValue}
+          /> */}
+          <textarea
+            className="p-10 max-h-[500px] w-full"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          ></textarea>
+        </div>
       </div>{" "}
       <Button onClick={handleCreateArticle} className="border">
         {" "}
-        Create Article{" "}
+        Create Article
       </Button>
     </div>
   );

@@ -25,9 +25,13 @@ export const POST = async (req: Request) => {
       categories,
     );
 
-    return NextResponse.json({
-      article,
-    });
+    console.log("article", article);
+
+    if (article !== undefined) {
+      return NextResponse.json({
+        article,
+      });
+    }
   } catch (error) {
     console.log("Error", error);
   }
