@@ -2,18 +2,15 @@ import { asyncWrapper } from "@/app/utils/api/async-wrapper";
 import { getCategoriesIdsByNames } from "@/app/utils/api/category/get-category-ids-by-names";
 import { NextResponse } from "next/server";
 
-export const GET = async (req: NextResponse) => {
+export const GET = async (req: NextResponse, res: Response) => {
   const categoryUrl = new URL(req.url);
 
   const queryString = categoryUrl.href.split("?")[1];
 
-  // Parse the query string into an object
   const queryParams = new URLSearchParams(queryString);
 
-  // Initialize an empty array to store the parameter values
   const categories = [];
 
-  // Iterate through all the query parameters and collect their values
   for (const [_, paramValue] of queryParams) {
     categories.push(paramValue);
   }
