@@ -3,6 +3,7 @@ import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import Card from "../components/elements/cards/card";
 
 export default function Home() {
   const [users, setUsers] = useState([]);
@@ -38,8 +39,7 @@ export default function Home() {
   };
 
   const authorId =
-    !!users.length &&
-    users.length &&
+    !!users?.length &&
     //@ts-ignore
     users?.find((user) => user?.clerkId === userId)?.id;
 
@@ -149,7 +149,7 @@ export default function Home() {
               <button
                 className="bg-green-500 p-2"
                 onClick={async () => {
-                  setClap((p) => (p <= 10 ? p + 1 : 10));
+                  setClap((p) => (p >= 10 ? 10 : p + 1));
                   await clapArticle(article?.id);
                 }}
               >
@@ -161,6 +161,12 @@ export default function Home() {
           ))}
         </div>
       </div>
+      <Card
+        title="Hey Jude"
+        subtitle="How do you create compelling presentations that wow your colleagues and impress your managers?"
+        image="https://via.placeholder.com/350x150"
+        author={{}}
+      />
     </div>
   );
 }

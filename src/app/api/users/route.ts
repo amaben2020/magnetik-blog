@@ -6,8 +6,6 @@ import { NextResponse } from "next/server";
 export const GET = async () => {
   const users = await getUsers();
 
-  console.log(users);
-
   try {
     return NextResponse.json({
       users,

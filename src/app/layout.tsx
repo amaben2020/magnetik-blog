@@ -1,7 +1,7 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ThemeSwitcher } from "./components/theme/button/toggle-button";
+import NavigationBar from "./components/elements/navbar";
 import "./globals.css";
 import { ThemeProvider } from "./provider/theme-provider";
 
@@ -22,7 +22,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={inter.className}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <ThemeSwitcher />
+            <NavigationBar />
             <main className="bg-gray-600 dark:bg-black">{children}</main>
           </ThemeProvider>
         </body>
