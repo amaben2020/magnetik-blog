@@ -2,7 +2,7 @@ import { asyncWrapper } from "@/app/utils/api/async-wrapper";
 import { getCategoriesIdsByNames } from "@/app/utils/api/category/get-category-ids-by-names";
 import { NextResponse } from "next/server";
 
-export const GET = async (req: NextResponse, res: Response) => {
+export const GET = async (req: Request) => {
   const categoryUrl = new URL(req.url);
 
   const queryString = categoryUrl.href.split("?")[1];
