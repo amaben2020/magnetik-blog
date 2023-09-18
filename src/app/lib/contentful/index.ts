@@ -11,7 +11,7 @@ if (
   !CONTENTFUL_SPACE_ID ||
   CONTENTFUL_PREVIEW_ACCESS_TOKEN
 ) {
-  throw new Error("Please insert env.local Contentful API keys");
+  throw new Error("Please insert env.local Contentful API key");
 }
 
 export const client = createClient({
