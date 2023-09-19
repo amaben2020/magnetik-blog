@@ -3,6 +3,7 @@ import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import contentfulClient from "../../contentful";
 import Card from "../components/elements/cards/card";
 
 export default function Home() {
@@ -93,8 +94,24 @@ export default function Home() {
     fetchArticles();
   }, [fetchArticles]);
 
+  const [cfPage, setCfPage] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const data = await contentfulClient({ preview: false }).getEntries();
+      setCfPage(data);
+      console.log("DATA", data);
+    })();
+  }, []);
+
+  console.log("cfPage", cfPage);
+
   return (
     <div>
+      {/* HEADER */}
+      {/* HERO */}
+      {/* FOOTER */}
+      {cfPage?.total}
       <UserButton afterSignOutUrl="/" />
       Hello, {userId} your current active session is {sessionId}
       <button className="bg-green-500 p-4" onClick={handleUserCreate}>
