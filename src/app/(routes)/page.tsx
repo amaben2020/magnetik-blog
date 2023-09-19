@@ -99,6 +99,7 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       const data = await contentfulClient({ preview: false }).getEntries();
+      //@ts-ignore
       setCfPage(data);
       console.log("DATA", data);
     })();
@@ -111,7 +112,6 @@ export default function Home() {
       {/* HEADER */}
       {/* HERO */}
       {/* FOOTER */}
-      {cfPage?.total}
       <UserButton afterSignOutUrl="/" />
       Hello, {userId} your current active session is {sessionId}
       <button className="bg-green-500 p-4" onClick={handleUserCreate}>
