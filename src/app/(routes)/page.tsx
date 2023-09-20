@@ -1,9 +1,12 @@
+//@ts-nocheck
 "use client";
+
 import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Card from "../components/elements/cards/card";
+import Hero from "../components/hero";
 import { getContentfulPage } from "../helpers/contentful/get-cf-page";
 
 export default function Home() {
@@ -101,7 +104,7 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       const response = await getContentfulPage("home-page");
-      setCfPage(response);
+      setCfPage(response?.hero?.sections[0].fields);
       console.log(response);
     })();
   }, []);
@@ -112,7 +115,16 @@ export default function Home() {
     <div>
       {/* HEADER */}
       {/* HERO */}
-      <div>{cfPage.hero?.title}</div>
+      <div>
+        {cfPage.title}
+        {cfPage.description}
+
+        <Hero
+          title={cfPage?.title}
+          description={cfPage?.description}
+          image={cfPage?.image}
+        />
+      </div>
       {/* FOOTER */}
       <UserButton afterSignOutUrl="/" />
       Hello, {userId} your current active session is {sessionId}
