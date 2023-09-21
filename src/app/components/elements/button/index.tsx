@@ -6,7 +6,7 @@ interface TButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = ({ children, className, ...rest }: TButton) => {
   return (
-    <button className={twMerge("p-2", className)} {...rest}>
+    <button className={twMerge("p-2 ", className)} {...rest}>
       {children}
     </button>
   );

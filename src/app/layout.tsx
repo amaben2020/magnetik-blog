@@ -2,6 +2,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NavigationBar from "./components/elements/navbar";
+import PageLayout from "./components/templates/page-layout";
 import "./globals.css";
 import { ThemeProvider } from "./provider/theme-provider";
 
@@ -23,7 +24,10 @@ export default function RootLayout({
         <body className={inter.className}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <NavigationBar />
-            <main className="bg-gray-600 dark:bg-black">{children}</main>
+
+            <main className="bg-gray-600 dark:bg-black">
+              <PageLayout>{children}</PageLayout>
+            </main>
           </ThemeProvider>
         </body>
       </html>

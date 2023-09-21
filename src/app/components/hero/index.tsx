@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Button from "../elements/button";
 
 const Hero = ({
   title,
@@ -29,14 +30,15 @@ const Hero = ({
 
   return (
     <section className="flex justify-between flex-col md:flex-row">
-      <div className=" w-full md:w-1/2">
-        <h1>{title}</h1>
+      <div className=" w-full md:w-1/2 flex flex-col gap-10 justify-center">
+        <h1 className="text-5xl">{title}</h1>
 
-        <h3>{description}</h3>
-        <button>CTA</button>
+        <h3 className="text-2xl">{description}</h3>
+
+        <Button className="border w-1/5">CTA</Button>
       </div>
       <div className="  w-full md:w-1/2">
-        <Image src={IMAGE} width={700} height={400} alt={PLACEHOLDER} />
+        <Image src={IMAGE} width={650} height={400} alt={PLACEHOLDER} />
       </div>
     </section>
   );
