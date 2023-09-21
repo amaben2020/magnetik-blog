@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import Card from "../components/elements/cards/card";
 import Hero from "../components/hero";
 import { getCFFooter } from "../helpers/contentful/get-cf-footer";
+import { getHeader } from "../helpers/contentful/get-cf-header";
 import { getContentfulPage } from "../helpers/contentful/get-cf-page";
 
 export default function Home() {
@@ -104,10 +105,12 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      const [page, footer] = await Promise.all([
+      const [page, footer, header] = await Promise.all([
         getContentfulPage("home-page"),
         getCFFooter(),
+        getHeader(),
       ]);
+      console.log("HEADER DATA", header);
       setCfPage(page?.hero?.sections[0].fields);
       console.log(page);
       console.log("FOOTER", footer);
@@ -172,7 +175,7 @@ export default function Home() {
 
           {articles?.map((article: any) => (
             <div
-              key={article.content}
+              key={article.id}
               className="border p-4 w-1/3 flex justify-between"
             >
               <p>
@@ -187,7 +190,7 @@ export default function Home() {
                 }}
               >
                 {" "}
-                {clap}
+                {article.clap ? article.clap : 0}
                 Clap 👏🏾{" "}
               </button>
             </div>

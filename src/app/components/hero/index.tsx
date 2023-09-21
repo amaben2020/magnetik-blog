@@ -10,6 +10,7 @@ const Hero = ({
   description: string;
   image: any;
 }) => {
+  console.log(image);
   const normalizeCFImage = (image: any) => {
     if (image) {
       return {
@@ -24,12 +25,9 @@ const Hero = ({
     normalizeCFImage(image)?.src && `https:${normalizeCFImage(image)?.src}`;
 
   const PLACEHOLDER = normalizeCFImage(image)?.alt;
-  const HEIGHT = normalizeCFImage(image)?.height - 5900;
-  const WIDTH = normalizeCFImage(image)?.width - 5000;
-  console.log(WIDTH);
 
   return (
-    <section className="flex justify-between flex-col md:flex-row">
+    <section className="flex justify-between flex-col md:flex-row py-10">
       <div className=" w-full md:w-1/2 flex flex-col gap-10 justify-center">
         <h1 className="text-5xl">{title}</h1>
 
