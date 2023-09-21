@@ -21,17 +21,22 @@ const Hero = ({
   };
   const IMAGE =
     normalizeCFImage(image)?.src && `https:${normalizeCFImage(image)?.src}`;
-  console.log(IMAGE);
+
+  const PLACEHOLDER = normalizeCFImage(image)?.alt;
+  const HEIGHT = normalizeCFImage(image)?.height - 5900;
+  const WIDTH = normalizeCFImage(image)?.width - 5000;
+  console.log(WIDTH);
+
   return (
-    <section>
-      <div>
+    <section className="flex justify-between flex-col md:flex-row">
+      <div className=" w-full md:w-1/2">
         <h1>{title}</h1>
 
         <h3>{description}</h3>
         <button>CTA</button>
       </div>
-      <div>
-        <Image src={IMAGE} width={600} height={600} alt="ok" />
+      <div className="  w-full md:w-1/2">
+        <Image src={IMAGE} width={700} height={400} alt={PLACEHOLDER} />
       </div>
     </section>
   );

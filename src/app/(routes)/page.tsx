@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Card from "../components/elements/cards/card";
 import Hero from "../components/hero";
+import { getCFFooter } from "../helpers/contentful/get-cf-footer";
 import { getContentfulPage } from "../helpers/contentful/get-cf-page";
 
 export default function Home() {
@@ -103,9 +104,13 @@ export default function Home() {
 
   useEffect(() => {
     (async () => {
-      const response = await getContentfulPage("home-page");
-      setCfPage(response?.hero?.sections[0].fields);
-      console.log(response);
+      const [page, footer] = await Promise.all([
+        getContentfulPage("home-page"),
+        getCFFooter(),
+      ]);
+      setCfPage(page?.hero?.sections[0].fields);
+      console.log(page);
+      console.log("FOOTER", footer);
     })();
   }, []);
 
@@ -116,9 +121,6 @@ export default function Home() {
       {/* HEADER */}
       {/* HERO */}
       <div>
-        {cfPage.title}
-        {cfPage.description}
-
         <Hero
           title={cfPage?.title}
           description={cfPage?.description}
