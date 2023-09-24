@@ -14,7 +14,7 @@ const http = new HttpLink({
   },
 });
 
-const link = ApolloLink.from([http]);
+const link = ApolloLink.from([http]) as any;
 
 const cache = new InMemoryCache();
 

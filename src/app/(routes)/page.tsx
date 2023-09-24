@@ -103,17 +103,18 @@ export default function Home() {
     hero: any;
   }>({ hero: {} });
 
+  const [isLoadingHeroImage, setIsLoadingHeroImage] = useState(false);
+
   useEffect(() => {
     (async () => {
+      setIsLoadingHeroImage(true);
       const [page, footer, header] = await Promise.all([
         getContentfulPage("home-page"),
         getCFFooter(),
         getHeader(),
       ]);
-      console.log("HEADER DATA", header);
+      setIsLoadingHeroImage(false);
       setCfPage(page?.hero?.sections[0].fields);
-      console.log(page);
-      console.log("FOOTER", footer);
     })();
   }, []);
 
@@ -128,6 +129,7 @@ export default function Home() {
           title={cfPage?.title}
           description={cfPage?.description}
           image={cfPage?.image}
+          loading={isLoadingHeroImage}
         />
       </div>
       {/* FOOTER */}

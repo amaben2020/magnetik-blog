@@ -1,5 +1,5 @@
+import apolloClient from "@/app/utils/apollo-client";
 import gql from "graphql-tag";
-import apolloClient from "./../../utils/apollo-client";
 
 export async function getHeader() {
   const { data } = await apolloClient.query({

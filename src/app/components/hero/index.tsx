@@ -5,12 +5,13 @@ const Hero = ({
   title,
   description,
   image,
+  loading,
 }: {
   title: string;
   description: string;
   image: any;
+  loading: boolean;
 }) => {
-  console.log(image);
   const normalizeCFImage = (image: any) => {
     if (image) {
       return {
@@ -35,8 +36,12 @@ const Hero = ({
 
         <Button className="border w-1/5">CTA</Button>
       </div>
-      <div className="  w-full md:w-1/2">
-        <Image src={IMAGE} width={650} height={400} alt={PLACEHOLDER} />
+      <div className="w-full md:w-1/2">
+        {loading ? (
+          <p>LOADING...</p>
+        ) : (
+          <Image src={IMAGE} width={650} height={400} alt={PLACEHOLDER} />
+        )}
       </div>
     </section>
   );
