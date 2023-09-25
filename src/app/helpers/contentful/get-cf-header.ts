@@ -7,6 +7,13 @@ export async function getHeader() {
       query GetHeader {
         headerCollection {
           items {
+            navigationsCollection {
+              items {
+                title
+                url
+                isExternal
+              }
+            }
             logo {
               image {
                 title

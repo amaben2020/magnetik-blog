@@ -7,9 +7,9 @@ export const getContentfulPage = async (slug: string) => {
     order: ["fields.title"],
   });
 
-  // console.log(data.items[0].fields);
+  console.log(data);
 
   return {
-    hero: data.items[0].fields,
+    hero: data?.items[0].fields,
   };
 };

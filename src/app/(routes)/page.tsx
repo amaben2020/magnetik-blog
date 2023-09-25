@@ -6,7 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Card from "../components/elements/cards/card";
-import Hero from "../components/hero";
+import Hero from "../components/sections/hero";
 import { getCFFooter } from "../helpers/contentful/get-cf-footer";
 import { getHeader } from "../helpers/contentful/get-cf-header";
 import { getContentfulPage } from "../helpers/contentful/get-cf-page";
@@ -71,7 +71,7 @@ export default function Home() {
   const fetchArticles = useCallback(async () => {
     try {
       const { data } = await axios.get("/api/article");
-      console.log("articles", data);
+
       setArticles(data.articles);
     } catch (error) {
       console.log(error);
@@ -114,7 +114,9 @@ export default function Home() {
         getHeader(),
       ]);
       setIsLoadingHeroImage(false);
-      setCfPage(page?.hero?.sections[0].fields);
+
+      setCfPage(page?.hero?.sections[0]?.fields);
+      console.log(page?.hero);
     })();
   }, []);
 
