@@ -22,7 +22,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const [header, footer] = await Promise.all([getHeader(), getCFFooter()]);
-  console.log("Header", header[0]);
+
   return (
     <ClerkProvider>
       <html lang="en">
