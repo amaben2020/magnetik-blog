@@ -32,6 +32,10 @@ export async function getHeader() {
     `,
   });
   console.log("Header,", data);
+
+  const contentTypeId = data?.sys;
+  console.log(contentTypeId);
+
   return data.headerCollection.items;
 }
 

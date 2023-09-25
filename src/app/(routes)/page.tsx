@@ -10,7 +10,6 @@ import Hero from "../components/sections/hero";
 import { getCFFooter } from "../helpers/contentful/get-cf-footer";
 import { getHeader } from "../helpers/contentful/get-cf-header";
 import { getContentfulPage } from "../helpers/contentful/get-cf-page";
-
 export default function Home() {
   const [users, setUsers] = useState([]);
   const [articles, setArticles] = useState<any>([]);
@@ -108,10 +107,9 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       setIsLoadingHeroImage(true);
-      const [page, footer, header] = await Promise.all([
+      const [page] = await Promise.all([
         getContentfulPage("home-page"),
-        getCFFooter(),
-        getHeader(),
+      
       ]);
       setIsLoadingHeroImage(false);
 
@@ -120,12 +118,9 @@ export default function Home() {
     })();
   }, []);
 
-  console.log("cfPage", cfPage);
-
   return (
     <div>
-      {/* HEADER */}
-      {/* HERO */}
+    
       <div>
         <Hero
           title={cfPage?.title}
