@@ -1,9 +1,12 @@
 import { ClerkProvider } from "@clerk/nextjs";
+import clsx from "clsx";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NavigationBar from "./components/elements/navbar";
 import Header from "./components/sections/header";
 import PageLayout from "./components/templates/page-layout";
+import { gothic, raleway } from "./fonts/fonts";
 import "./globals.css";
 import { getCFFooter } from "./helpers/contentful/get-cf-footer";
 import { getHeader } from "./helpers/contentful/get-cf-header";
@@ -26,7 +29,12 @@ export default async function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={inter.className}>
+        <body
+          className={clsx(
+            `${raleway.variable} font-sans`,
+            `${gothic.variable} font-sans`,
+          )}
+        >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Header logo={header[0]?.logo}>
               <NavigationBar links={header[0]?.navigationsCollection.items} />

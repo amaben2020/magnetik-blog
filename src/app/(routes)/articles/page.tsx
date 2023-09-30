@@ -25,7 +25,7 @@ const Articles = async () => {
 
         <Link href="/article/create"> Create Article ➕</Link>
 
-        {articles.length > 0 &&
+        {articles?.length > 0 &&
           articles.map((article: any) => (
             <Link
               href={`/article/${article.id}`}

@@ -7,7 +7,5 @@ export const getContentfulPages = async () => {
     // order: ["fields.title"],
   });
 
-  console.log("PAGE DATA", data);
-
   return null;
 };

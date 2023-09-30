@@ -27,9 +27,3 @@ export default function contentfulClient({ preview = false }) {
 
   return client;
 }
-
-console.log(
-  contentfulClient({ preview: false })
-    .getSpace()
-    .then((res) => console.log(res)),
-);

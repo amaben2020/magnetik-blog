@@ -7,8 +7,6 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Card from "../components/elements/cards/card";
 import Hero from "../components/sections/hero";
-import { getCFFooter } from "../helpers/contentful/get-cf-footer";
-import { getHeader } from "../helpers/contentful/get-cf-header";
 import { getContentfulPage } from "../helpers/contentful/get-cf-page";
 export default function Home() {
   const [users, setUsers] = useState([]);
@@ -107,10 +105,7 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       setIsLoadingHeroImage(true);
-      const [page] = await Promise.all([
-        getContentfulPage("home-page"),
-      
-      ]);
+      const [page] = await Promise.all([getContentfulPage("home-page")]);
       setIsLoadingHeroImage(false);
 
       setCfPage(page?.hero?.sections[0]?.fields);
@@ -120,7 +115,6 @@ export default function Home() {
 
   return (
     <div>
-    
       <div>
         <Hero
           title={cfPage?.title}
@@ -202,6 +196,8 @@ export default function Home() {
         image="https://via.placeholder.com/350x150"
         author={{}}
       />
+      <p className="raleway">RALEWAY</p>
+      <p className="raleway font-bold">RALEWAY</p>
     </div>
   );
 }
