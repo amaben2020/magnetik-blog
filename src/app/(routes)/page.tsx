@@ -1,10 +1,13 @@
+//@ts-nocheck
 "use client";
+
 import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Card from "../components/elements/cards/card";
-
+import Hero from "../components/sections/hero";
+import { getContentfulPage } from "../helpers/contentful/get-cf-page";
 export default function Home() {
   const [users, setUsers] = useState([]);
   const [articles, setArticles] = useState<any>([]);
@@ -65,7 +68,7 @@ export default function Home() {
   const fetchArticles = useCallback(async () => {
     try {
       const { data } = await axios.get("/api/article");
-      console.log("articles", data);
+
       setArticles(data.articles);
     } catch (error) {
       console.log(error);
@@ -93,8 +96,34 @@ export default function Home() {
     fetchArticles();
   }, [fetchArticles]);
 
+  const [cfPage, setCfPage] = useState<{
+    hero: any;
+  }>({ hero: {} });
+
+  const [isLoadingHeroImage, setIsLoadingHeroImage] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      setIsLoadingHeroImage(true);
+      const [page] = await Promise.all([getContentfulPage("home-page")]);
+      setIsLoadingHeroImage(false);
+
+      setCfPage(page?.hero?.sections[0]?.fields);
+      console.log(page?.hero);
+    })();
+  }, []);
+
   return (
     <div>
+      <div>
+        <Hero
+          title={cfPage?.title}
+          description={cfPage?.description}
+          image={cfPage?.image}
+          loading={isLoadingHeroImage}
+        />
+      </div>
+      {/* FOOTER */}
       <UserButton afterSignOutUrl="/" />
       Hello, {userId} your current active session is {sessionId}
       <button className="bg-green-500 p-4" onClick={handleUserCreate}>
@@ -139,7 +168,7 @@ export default function Home() {
 
           {articles?.map((article: any) => (
             <div
-              key={article.content}
+              key={article.id}
               className="border p-4 w-1/3 flex justify-between"
             >
               <p>
@@ -154,7 +183,7 @@ export default function Home() {
                 }}
               >
                 {" "}
-                {clap}
+                {article.clap ? article.clap : 0}
                 Clap 👏🏾{" "}
               </button>
             </div>
@@ -167,6 +196,8 @@ export default function Home() {
         image="https://via.placeholder.com/350x150"
         author={{}}
       />
+      <p className="raleway">RALEWAY</p>
+      <p className="raleway font-bold">RALEWAY</p>
     </div>
   );
 }

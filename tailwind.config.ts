@@ -9,6 +9,10 @@ const config: Config = {
   darkMode: ["class"],
   theme: {
     extend: {
+      fontFamily: {
+        raleway: ["var(--font-raleway)", "sans"],
+        gothic: ["var(--font-gothic)", "sans"],
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
